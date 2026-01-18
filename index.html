@@ -3,14 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Portal MVP</title>
+  <title>SynergyFlow</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1>Client Portal MVP</h1>
+  <h1>SynergyFlow</h1>
 </header>
+
+<!-- Navigation Bar -->
+<nav id="navbar" class="hidden">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <strong>SynergyFlow</strong>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#" onclick="showDashboard()" class="nav-link">Dashboard</a></li>
+      <li><a href="#" onclick="showProjects()" class="nav-link">Projects</a></li>
+      <li><a href="#" onclick="showProfile()" class="nav-link">Profile</a></li>
+      <li><a href="#" onclick="logout()" class="nav-link logout-link">Logout</a></li>
+    </ul>
+  </div>
+</nav>
 
 <main>
 
@@ -49,41 +64,126 @@
     </div>
   </div>
 
-  <!-- Freelancer Dashboard -->
+  <!-- Freelancer Client Section -->
   <div id="freelancerDashboard" class="hidden dashboard">
-    <h2>Freelancer Dashboard</h2>
-    <button onclick="showCreateProject()">+ Create Project</button>
+    <div class="dashboard-header">
+      <h2>My Clients</h2>
+      <div class="user-info">
+        <span id="freelancerUserName"></span>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Project Requests Section -->
+    <div id="freelancerRequestsSection">
+      <h3>My Project Requests</h3>
+      <div id="freelancerRequestsList"></div>
+    </div>
+    
+    <button onclick="toggleCreateProjectForm()">+ Create Project</button>
+    <div id="createProjectForm" class="hidden">
+      <h3>Create Project Request</h3>
+      <label>Project Name:</label>
+      <input type="text" id="projectName">
+      <label>Client Email:</label>
+      <input type="email" id="projectClientEmail">
+      <button onclick="createProject()">Send Request</button>
+      <button onclick="cancelCreateProject()">Cancel</button>
+    </div>
+    
+    <div id="freelancerClients"></div>
     <div id="freelancerProjects"></div>
   </div>
 
   <!-- Client Dashboard -->
   <div id="clientDashboard" class="hidden dashboard">
-    <h2>Client Dashboard</h2>
+    <div class="dashboard-header">
+      <h2>Client Dashboard</h2>
+      <div class="user-info">
+        <span id="clientUserName"></span>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Project Requests Section -->
+    <div id="projectRequestsSection">
+      <h3>Project Requests</h3>
+      <div id="projectRequestsList"></div>
+    </div>
+    
     <div id="clientProjects"></div>
   </div>
 
-  <!-- Create Project Form -->
-  <div id="createProjectForm" class="hidden">
-    <h3>Create Project</h3>
-    <label>Project Name:</label>
-    <input type="text" id="projectName">
-    <label>Client Email:</label>
-    <input type="email" id="projectClientEmail">
-    <button onclick="createProject()">Create</button>
-    <button onclick="cancelCreateProject()">Cancel</button>
+  <!-- Project Request Acceptance Form -->
+  <div id="projectRequestForm" class="hidden">
+    <h3>Project Request Details</h3>
+    <div class="request-info">
+      <div class="info-group">
+        <label>Project Name:</label>
+        <p id="requestProjectName"></p>
+      </div>
+      <div class="info-group">
+        <label>From Freelancer:</label>
+        <p id="requestFreelancerName"></p>
+      </div>
+      <div class="info-group">
+        <label>Message:</label>
+        <p id="requestMessage"></p>
+      </div>
+    </div>
+    
+    <div class="project-details-form">
+      <h4>Additional Project Details</h4>
+      <label>Project Description:</label>
+      <textarea id="projectDescription" placeholder="Describe what you want done in this project..."></textarea>
+      
+      <label>Project Requirements:</label>
+      <textarea id="projectRequirements" placeholder="List specific requirements, deliverables, or expectations..."></textarea>
+      
+      <label>Estimated Timeline:</label>
+      <select id="projectTimeline">
+        <option value="">Select timeline</option>
+        <option value="Less than 1 week">Less than 1 week</option>
+        <option value="1-2 weeks">1-2 weeks</option>
+        <option value="2-4 weeks">2-4 weeks</option>
+        <option value="1-2 months">1-2 months</option>
+        <option value="2-3 months">2-3 months</option>
+        <option value="3+ months">3+ months</option>
+      </select>
+      
+      <label>Budget Range:</label>
+      <select id="projectBudget">
+        <option value="">Select budget range</option>
+        <option value="Under $500">Under $500</option>
+        <option value="$500-$1,000">$500-$1,000</option>
+        <option value="$1,000-$2,500">$1,000-$2,500</option>
+        <option value="$2,500-$5,000">$2,500-$5,000</option>
+        <option value="$5,000-$10,000">$5,000-$10,000</option>
+        <option value="Over $10,000">Over $10,000</option>
+      </select>
+      
+      <div class="request-actions">
+        <button onclick="acceptProjectRequest()" class="accept-btn">Accept Request</button>
+        <button onclick="rejectProjectRequest()" class="reject-btn">Reject Request</button>
+        <button onclick="cancelRequestView()" class="cancel-btn">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <!-- Project Detail Page -->
   <div id="projectDetailPage" class="hidden">
     <h3 id="projectTitle"></h3>
     <div id="freelancerView" class="hidden">
-      <label>Status:</label>
-      <select id="projectStatus">
-        <option value="Not Started">Not Started</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Review">Review</option>
-        <option value="Completed">Completed</option>
-      </select>
+      <div class="status-section">
+        <label>Status:</label>
+        <select id="projectStatus">
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Review">Review</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <button onclick="saveProjectStatus()" class="save-status-btn">Save Status</button>
+      </div>
       <label>Update:</label>
       <textarea id="projectUpdate" placeholder="Write an update"></textarea>
       <button onclick="postUpdate()">Post Update</button>
@@ -93,13 +193,84 @@
     <div id="clientView" class="hidden">
       <label>Status:</label>
       <p id="clientProjectStatus"></p>
-      <h4>Updates:</h4>
+      
+      <!-- Project Timeline -->
+      <div class="timeline-section">
+        <h3>Project Timeline</h3>
+        <div class="timeline-container">
+          <div class="timeline-graph">
+            <canvas id="timelineCanvas" width="800" height="200"></canvas>
+          </div>
+          <div class="timeline-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background: #4a90e2;"></span>
+              <span>Project Updates</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #27ae60;"></span>
+              <span>Client Comments</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #f39c12;"></span>
+              <span>Status Changes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <h4>Recent Activity:</h4>
       <ul id="clientUpdateList"></ul>
       <label>Comment:</label>
       <textarea id="clientComment" placeholder="Write a comment"></textarea>
       <button onclick="postClientComment()">Post Comment</button>
     </div>
     <button onclick="backToDashboard()">Back</button>
+  </div>
+
+  <!-- Profile Page -->
+  <div id="profilePage" class="hidden">
+    <h2>Profile</h2>
+    <div class="profile-content">
+      <div class="profile-info">
+        <h3>Personal Information</h3>
+        <div class="info-group">
+          <label>Name:</label>
+          <p id="profileName"></p>
+        </div>
+        <div class="info-group">
+          <label>Email:</label>
+          <p id="profileEmail"></p>
+        </div>
+        <div class="info-group">
+          <label>Role:</label>
+          <p id="profileRole"></p>
+        </div>
+        <div class="info-group">
+          <label>Date of Birth:</label>
+          <p id="profileDob"></p>
+        </div>
+        <div class="info-group">
+          <label>Member Since:</label>
+          <p id="profileMemberSince"></p>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <h3>Statistics</h3>
+        <div class="stat-item">
+          <span class="stat-number" id="totalProjects">0</span>
+          <span class="stat-label">Total Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="activeProjects">0</span>
+          <span class="stat-label">Active Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="completedProjects">0</span>
+          <span class="stat-label">Completed Projects</span>
+        </div>
+      </div>
+    </div>
+    <button onclick="backToDashboard()">Back to Dashboard</button>
   </div>
 
 </main>
