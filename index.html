@@ -16,15 +16,37 @@
 
   <!-- Login Page -->
   <div id="loginPage">
-    <h2>Login / Signup</h2>
-    <label>Email:</label>
-    <input type="email" id="email" placeholder="Enter your email">
-    <label>Role:</label>
-    <select id="role">
-      <option value="freelancer">Freelancer</option>
-      <option value="client">Client</option>
-    </select>
-    <button onclick="login()">Login</button>
+    <div id="loginForm">
+      <h2>Login</h2>
+      <label>Email:</label>
+      <input type="email" id="loginEmail" placeholder="Enter your email">
+      <label>Password:</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password">
+      <button onclick="login()">Login</button>
+      <p>Don't have an account? <a href="#" onclick="showSignupForm()">Sign up</a></p>
+    </div>
+
+    <div id="signupForm" class="hidden">
+      <h2>Sign Up</h2>
+      <label>Full Name:</label>
+      <input type="text" id="signupName" placeholder="Enter your full name">
+      <label>Email:</label>
+      <input type="email" id="signupEmail" placeholder="Enter your email">
+      <label>Date of Birth:</label>
+      <input type="date" id="signupDob">
+      <label>Password:</label>
+      <input type="password" id="signupPassword" placeholder="Create a password">
+      <label>Confirm Password:</label>
+      <input type="password" id="signupConfirmPassword" placeholder="Confirm your password">
+      <label>Role:</label>
+      <select id="signupRole">
+        <option value="">Select your role</option>
+        <option value="freelancer">Freelancer</option>
+        <option value="client">Client</option>
+      </select>
+      <button onclick="signup()">Sign Up</button>
+      <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+    </div>
   </div>
 
   <!-- Freelancer Dashboard -->
